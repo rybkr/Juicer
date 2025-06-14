@@ -5,8 +5,7 @@
 #include <string>
 
 
-namespace Board
-{
+namespace Board {
     enum class Rank: int {
         RANK_1, RANK_2, RANK_3, RANK_4,
         RANK_5, RANK_6, RANK_7, RANK_8,
@@ -39,13 +38,14 @@ namespace Board
 
     static constexpr Square& operator++(Square& s) { return s = Square(int(s) + 1); }
     static constexpr Square& operator--(Square& s) { return s = Square(int(s) - 1); }
+
+    static constexpr Square make_square(File f, Rank r) { return Square((int(r) * 8) + int(f)); }
 } // namespace Board
 
 
 using bitboard_t = uint64_t;
 
-namespace Bitboard
-{
+namespace Bitboard {
     static constexpr bitboard_t RANK_1 { 0xFFULL };
     static constexpr bitboard_t RANK_2 { RANK_1 << 8  };
     static constexpr bitboard_t RANK_3 { RANK_1 << 16 };
