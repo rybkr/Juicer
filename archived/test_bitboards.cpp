@@ -1,9 +1,9 @@
 #include "types.h"
 #include "minunit.h"
-#include <iostream>
 
 
-static void test_bb_square_indices() {
+static void test_bb_square_indices()
+{
     using namespace Board;
 
     mu_assert(int(Square::A1) == 0);
@@ -11,9 +11,14 @@ static void test_bb_square_indices() {
     mu_assert(int(Square::A2) == 8);
     mu_assert(int(Square::H8) == 63);
     mu_assert(int(Square::E4) == 28);
+    
+    mu_assert(square_idx(File::FILE_A, Rank::RANK_1) == 0);
+    mu_assert(square_idx(File::FILE_A, Rank::RANK_3) == 16);
+    mu_assert(square_idx(File::FILE_H, Rank::RANK_8) == 63);
 }
 
-static void test_bb_square_bitmasks() {
+static void test_bb_square_bitmasks()
+{
     using namespace Bitboard;
 
     mu_assert(A1 == (1ULL));
@@ -22,7 +27,8 @@ static void test_bb_square_bitmasks() {
     mu_assert(D6 == (1ULL << int(Board::Square::D6)));
 }
 
-static void test_make_square() {
+static void test_board_make_bb()
+{
     using namespace Board;
 
     mu_assert(Board::make_square(File::FILE_A, Rank::RANK_1) == Square::A1);
@@ -31,13 +37,15 @@ static void test_make_square() {
     mu_assert(static_cast<int>(Board::make_square(File::FILE_B, Rank::RANK_2)) == 9);
 }
 
-static void test_bb_make_square() {
-    mu_assert(Bitboard::make_square(Board::File::FILE_A, Board::Rank::RANK_1) == 1ULL << int(Board::Square::A1));
-    mu_assert(Bitboard::make_square(Board::File::FILE_H, Board::Rank::RANK_8) == 1ULL << int(Board::Square::H8));
-    mu_assert(Bitboard::make_square(Board::File::FILE_E, Board::Rank::RANK_4) == 1ULL << int(Board::Square::E4));
+static void test_make_bb()
+{
+    mu_assert(Bitboard::make_bb(Board::File::FILE_A, Board::Rank::RANK_1) == 1ULL << int(Board::Square::A1));
+    mu_assert(Bitboard::make_bb(Board::File::FILE_H, Board::Rank::RANK_8) == 1ULL << int(Board::Square::H8));
+    mu_assert(Bitboard::make_bb(Board::File::FILE_E, Board::Rank::RANK_4) == 1ULL << int(Board::Square::E4));
 }
 
-static void test_bb_rank_file_bitmasks() {
+static void test_bb_rank_file_bitmasks()
+{
     using namespace Bitboard;
 
     mu_assert(RANK_1 == (A1 | B1 | C1 | D1 | E1 | F1 | G1 | H1));
@@ -61,15 +69,12 @@ static void test_bb_rank_file_bitmasks() {
     mu_assert((FILE_E & RANK_6) == E6);
 }
 
-static void test_bb_diagonal_bitmasks() {
-    using namespace Bitboard;
-}
 
-
-int main() {
+int main()
+{
     mu_run(test_bb_square_indices);
     mu_run(test_bb_square_bitmasks);
-    mu_run(test_make_square);
-    mu_run(test_bb_make_square);
+    mu_run(test_board_make_bb);
+    mu_run(test_make_bb);
     mu_run(test_bb_rank_file_bitmasks);
 }
